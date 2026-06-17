@@ -3,18 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dice Roller</title>
+<title>SVG Dice Roller</title>
 
 <style>
 body{
-    font-family:Arial, sans-serif;
+    font-family:Arial,sans-serif;
     background:#f4f4f4;
     margin:0;
     padding:20px;
 }
 
 .container{
-    max-width:850px;
+    max-width:900px;
     margin:auto;
     background:white;
     padding:20px;
@@ -26,178 +26,157 @@ h1,h2,h3{
     text-align:center;
 }
 
-/* ===== DICE SELECTOR ===== */
+/* ===== TOP DICE BUTTONS ===== */
 
 .dice-buttons{
     display:flex;
     flex-wrap:wrap;
-    gap:10px;
     justify-content:center;
+    gap:10px;
     margin-bottom:20px;
 }
 
-.die-icon{
+.die-btn{
     width:70px;
     height:70px;
-    color:white;
-    font-weight:bold;
-    font-size:16px;
+    position:relative;
     cursor:pointer;
+    user-select:none;
     display:flex;
     justify-content:center;
     align-items:center;
     transition:.2s;
-    user-select:none;
 }
 
-/* Shapes + Colors per die */
-
-.d4{
-    background:#1e88e5;
-    clip-path:polygon(50% 0%, 0% 100%, 100% 100%);
-}
-
-.d6{
-    background:#43a047;
-    border-radius:12px;
-}
-
-.d8{
-    background:#e53935;
-    clip-path:polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-}
-
-.d10{
-    background:#8e24aa;
-    clip-path:polygon(50% 0%, 90% 25%, 100% 70%, 50% 100%, 0% 70%, 10% 25%);
-}
-
-.d12{
-    background:#fb8c00;
-    clip-path:polygon(50% 0%, 80% 10%, 100% 40%, 90% 80%, 50% 100%, 10% 80%, 0% 40%, 20% 10%);
-}
-
-.d20{
-    background:#3949ab;
-    clip-path:polygon(50% 0%, 85% 15%, 100% 50%, 85% 85%, 50% 100%, 15% 85%, 0% 50%, 15% 15%);
-}
-
-.d100{
-    background:#6d4c41;
-    border-radius:50%;
-}
-
-.die-icon:hover{
+.die-btn:hover{
     transform:scale(1.08);
+}
+
+/* Make SVG fill white by default so we can control color per die */
+.die-btn svg{
+    width:100%;
+    height:100%;
+}
+
+/* White text overlay */
+.die-btn span{
+    position:absolute;
+    color:white;
+    font-weight:bold;
+    font-size:14px;
+    pointer-events:none;
 }
 
 /* ===== TRAY ===== */
 
 #diceTray{
+    min-height:110px;
     display:flex;
     flex-wrap:wrap;
-    gap:10px;
     justify-content:center;
-    min-height:90px;
-    padding:15px;
+    gap:12px;
     border:2px dashed #bbb;
     border-radius:12px;
+    padding:15px;
     margin-bottom:20px;
 }
 
-/* Base tray die */
 .tray-die{
-    width:75px;
-    height:75px;
-    color:white;
-    font-weight:bold;
+    width:80px;
+    height:80px;
+    position:relative;
     cursor:pointer;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
     user-select:none;
     transition:.2s;
-    position:relative;
 }
 
-/* Individual tray shapes/colors match selector */
-
-.tray-d4{
-    background:#1e88e5;
-    clip-path:polygon(50% 0%, 0% 100%, 100% 100%);
+.tray-die:hover{
+    transform:scale(1.05);
 }
 
-.tray-d6{
-    background:#43a047;
-    border-radius:12px;
-}
+/* SVG fill colors */
+.d4 svg polygon{ fill:#1e88e5; }
+.d6 svg rect{ fill:#43a047; }
+.d8 svg polygon{ fill:#e53935; }
+.d10 svg polygon{ fill:#8e24aa; }
+.d12 svg polygon{ fill:#fb8c00; }
+.d20 svg polygon{ fill:#3949ab; }
+.d100 svg circle{ fill:#6d4c41; }
 
-.tray-d8{
-    background:#e53935;
-    clip-path:polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-}
-
-.tray-d10{
-    background:#8e24aa;
-    clip-path:polygon(50% 0%, 90% 25%, 100% 70%, 50% 100%, 0% 70%, 10% 25%);
-}
-
-.tray-d12{
-    background:#fb8c00;
-    clip-path:polygon(50% 0%, 80% 10%, 100% 40%, 90% 80%, 50% 100%, 10% 80%, 0% 40%, 20% 10%);
-}
-
-.tray-d20{
-    background:#3949ab;
-    clip-path:polygon(50% 0%, 85% 15%, 100% 50%, 85% 85%, 50% 100%, 15% 85%, 0% 50%, 15% 15%);
-}
-
-.tray-d100{
-    background:#6d4c41;
-    border-radius:50%;
-}
-
-/* Text inside dice */
-.die-type{
-    font-size:12px;
-    opacity:.9;
+/* Text */
+.die-label{
+    position:absolute;
+    top:23px;
+    left:0;
+    right:0;
+    text-align:center;
+    font-size:11px;
+    font-weight:bold;
+    color:white;
 }
 
 .die-roll{
+    position:absolute;
+    bottom:15px;
+    left:0;
+    right:0;
+    text-align:center;
     font-size:22px;
-    margin-top:2px;
+    font-weight:bold;
+    color:white;
 }
 
-/* Animation */
+/* Remove X */
+.remove-die{
+    position:absolute;
+    top:4px;
+    right:4px;
+    width:20px;
+    height:20px;
+    border-radius:50%;
+    background:rgba(0,0,0,.35);
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:14px;
+    font-weight:bold;
+    cursor:pointer;
+    z-index:10;
+}
+
+.remove-die:hover{
+    background:rgba(0,0,0,.6);
+}
+
+/* Rolling animation */
 .rolling{
-    animation:spin .4s linear infinite;
+    animation:spin .5s linear infinite;
 }
 
 @keyframes spin{
-    from{ transform:rotate(0deg); }
-    to{ transform:rotate(360deg); }
+    from{transform:rotate(0deg);}
+    to{transform:rotate(360deg);}
 }
 
-/* ===== BUTTONS ===== */
-
+/* Buttons */
 button{
-    cursor:pointer;
+    width:100%;
+    padding:12px;
+    margin-top:10px;
     border:none;
     border-radius:8px;
-    padding:12px;
     font-size:16px;
-    width:100%;
-    margin-top:10px;
+    color:white;
+    cursor:pointer;
 }
 
-.roll-btn{ background:#34a853; color:white; }
-.reroll-btn{ background:#1e88e5; color:white; }
-.clear-btn{ background:#e53935; color:white; }
-.history-btn{ background:#757575; color:white; }
+.roll-btn{background:#34a853;}
+.reroll-btn{background:#1e88e5;}
+.clear-btn{background:#e53935;}
+.history-btn{background:#757575;}
 
-/* ===== RESULT ===== */
-
+/* Results */
 #result{
     text-align:center;
     margin-top:20px;
@@ -213,8 +192,7 @@ button{
     margin-top:10px;
 }
 
-/* ===== HISTORY ===== */
-
+/* History */
 .history{
     margin-top:30px;
 }
@@ -230,29 +208,69 @@ button{
 
 <div class="container">
 
-<h1>🎲 Dice Roller</h1>
+<h1>🎲 SVG Dice Roller</h1>
 
+<!-- Dice Buttons -->
 <div class="dice-buttons">
 
-    <div class="die-icon d4" onclick="addDie(4)">d4</div>
-    <div class="die-icon d6" onclick="addDie(6)">d6</div>
-    <div class="die-icon d8" onclick="addDie(8)">d8</div>
-    <div class="die-icon d10" onclick="addDie(10)">d10</div>
-    <div class="die-icon d12" onclick="addDie(12)">d12</div>
-    <div class="die-icon d20" onclick="addDie(20)">d20</div>
-    <div class="die-icon d100" onclick="addDie(100)">%</div>
+    <div class="die-btn d4" onclick="addDie(4)">
+        <svg viewBox="0 0 100 100">
+            <polygon points="50,10 10,90 90,90"/>
+        </svg>
+        <span>d4</span>
+    </div>
+
+    <div class="die-btn d6" onclick="addDie(6)">
+        <svg viewBox="0 0 100 100">
+            <rect x="15" y="15" width="70" height="70" rx="12"/>
+        </svg>
+        <span>d6</span>
+    </div>
+
+    <div class="die-btn d8" onclick="addDie(8)">
+        <svg viewBox="0 0 100 100">
+            <polygon points="50,10 90,50 50,90 10,50"/>
+        </svg>
+        <span>d8</span>
+    </div>
+
+    <div class="die-btn d10" onclick="addDie(10)">
+        <svg viewBox="0 0 100 100">
+            <polygon points="50,10 90,35 75,90 25,90 10,35"/>
+        </svg>
+        <span>d10</span>
+    </div>
+
+    <div class="die-btn d12" onclick="addDie(12)">
+        <svg viewBox="0 0 100 100">
+            <polygon points="50,5 85,20 95,55 75,90 25,90 5,55 15,20"/>
+        </svg>
+        <span>d12</span>
+    </div>
+
+    <div class="die-btn d20" onclick="addDie(20)">
+        <svg viewBox="0 0 100 100">
+            <polygon points="50,5 90,25 95,60 70,95 30,95 5,60 10,25"/>
+        </svg>
+        <span>d20</span>
+    </div>
+
+    <div class="die-btn d100" onclick="addDie(100)">
+        <svg viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="40"/>
+        </svg>
+        <span>%</span>
+    </div>
 
 </div>
 
 <h3>Dice Tray</h3>
 
-<div id="diceTray">
-<em>Click dice above to add them</em>
-</div>
+<div id="diceTray"><em>Click dice above to add them</em></div>
 
 <div style="text-align:center;">
 Modifier:
-<input type="number" id="modifier" value="0" style="width:80px; text-align:center;">
+<input id="modifier" type="number" value="0" style="width:80px;text-align:center;">
 </div>
 
 <button class="roll-btn" onclick="rollDice()">Roll Dice</button>
@@ -276,26 +294,25 @@ let selectedDice = [];
 function addDie(sides){
     selectedDice.push({
         sides,
-        id: Date.now() + Math.random(),
-        lastRoll: null
+        id:Date.now()+Math.random(),
+        lastRoll:null
     });
     renderTray();
 }
 
 function removeDie(id){
-    selectedDice = selectedDice.filter(d => d.id !== id);
+    const die = selectedDice.find(d=>d.id==id);
+
+    if(die){
+        addHistory("history-remove", `Removed d${die.sides}`);
+    }
+
+    selectedDice = selectedDice.filter(d=>d.id!=id);
     renderTray();
+    updateResults();
 }
 
-function clearDice(){
-    selectedDice = [];
-    renderTray();
-    document.getElementById("result").innerHTML = "";
-}
-
-function clearHistory(){
-    document.getElementById("history").innerHTML = "";
-}
+/* ===== RENDER TRAY ===== */
 
 function renderTray(){
 
@@ -308,95 +325,195 @@ function renderTray(){
 
     tray.innerHTML = "";
 
-    selectedDice.forEach(die => {
+    selectedDice.forEach(die=>{
 
         const div = document.createElement("div");
 
-        div.className = `tray-die tray-d${die.sides}`;
+        div.className = `tray-die d${die.sides}`;
 
-        div.onclick = () => removeDie(die.id);
+        // click = reroll + animation
+        div.onclick = () => rerollSingleDie(die.id, div);
 
         div.innerHTML = `
-            <div class="die-type">d${die.sides}</div>
+            <div class="remove-die"
+                 onclick="event.stopPropagation(); removeDie('${die.id}')">
+                 ×
+            </div>
+
+            <div class="die-label">d${die.sides}</div>
             <div class="die-roll">${die.lastRoll ?? "-"}</div>
+
+            ${getSVG(die.sides)}
         `;
 
         tray.appendChild(div);
     });
 }
 
+/* ===== SVG HELPERS ===== */
+
+function getSVG(sides){
+
+    switch(sides){
+
+        case 4:
+            return `<svg viewBox="0 0 100 100"><polygon points="50,10 10,90 90,90"/></svg>`;
+
+        case 6:
+            return `<svg viewBox="0 0 100 100"><rect x="15" y="15" width="70" height="70" rx="12"/></svg>`;
+
+        case 8:
+            return `<svg viewBox="0 0 100 100"><polygon points="50,10 90,50 50,90 10,50"/></svg>`;
+
+        case 10:
+            return `<svg viewBox="0 0 100 100"><polygon points="50,10 90,35 75,90 25,90 10,35"/></svg>`;
+
+        case 12:
+            return `<svg viewBox="0 0 100 100"><polygon points="50,5 85,20 95,55 75,90 25,90 5,55 15,20"/></svg>`;
+
+        case 20:
+            return `<svg viewBox="0 0 100 100"><polygon points="50,5 90,25 95,60 70,95 30,95 5,60 10,25"/></svg>`;
+
+        case 100:
+            return `<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="40"/></svg>`;
+    }
+}
+
+/* ===== ROLL SINGLE DIE ===== */
+
+function rerollSingleDie(id, element){
+
+    const die = selectedDice.find(d=>d.id==id);
+    if(!die) return;
+
+    element.classList.add("rolling");
+
+    setTimeout(()=>{
+
+        die.lastRoll = Math.floor(Math.random()*die.sides)+1;
+
+        element.classList.remove("rolling");
+
+        renderTray();
+        updateResults();
+
+        addHistory(
+            "history-reroll",
+            `d${die.sides}: rerolled → ${die.lastRoll}`
+        );
+
+    },500);
+}
+
+/* ===== FULL ROLL ===== */
+
 async function rollDice(){
 
-    if(selectedDice.length === 0){
-        alert("Select at least one die.");
+    if(selectedDice.length===0){
+        alert("Select dice first");
         return;
     }
 
-    const trayDice = document.querySelectorAll(".tray-die");
+    document.querySelectorAll(".tray-die")
+        .forEach(d=>d.classList.add("rolling"));
 
-    trayDice.forEach(d => d.classList.add("rolling"));
+    await new Promise(r=>setTimeout(r,500));
 
-    await new Promise(r => setTimeout(r, 900));
+    document.querySelectorAll(".tray-die")
+        .forEach(d=>d.classList.remove("rolling"));
 
-    trayDice.forEach(d => d.classList.remove("rolling"));
-
-    const modifier = parseInt(document.getElementById("modifier").value) || 0;
-
-    let total = 0;
-    let results = [];
-
-    selectedDice.forEach(die => {
-
-        const roll = Math.floor(Math.random() * die.sides) + 1;
-
-        die.lastRoll = roll;
-
-        total += roll;
-
-        results.push(`d${die.sides}: ${roll}`);
+    selectedDice.forEach(d=>{
+        d.lastRoll = Math.floor(Math.random()*d.sides)+1;
     });
 
     renderTray();
+    updateResults();
 
-    const finalTotal = total + modifier;
+    addHistory(
+    "history-roll",
+    `<strong>Full Roll</strong><br>
+    ${buildFullRollHistory()}`
+);
 
-    document.getElementById("result").innerHTML = `
-        <div class="total">${finalTotal}</div>
-        <div class="breakdown">
-            ${results.join("<br>")}
-            <br><br>
-            Modifier: ${modifier >= 0 ? "+" : ""}${modifier}
-        </div>
-    `;
-
-    addHistory(finalTotal, results, modifier);
 }
 
+/* ===== UTIL ===== */
+
 function rollAgain(){
-    if(selectedDice.length === 0){
-        alert("No dice selected.");
-        return;
-    }
     rollDice();
 }
 
-function addHistory(total, results, modifier){
-
-    const history = document.getElementById("history");
-
-    const item = document.createElement("div");
-
-    item.className = "history-item";
-
-    item.innerHTML = `
-        <strong>Total: ${total}</strong><br>
-        ${results.join(", ")} | Mod: ${modifier >= 0 ? "+" : ""}${modifier}
-    `;
-
-    history.prepend(item);
+function clearDice(){
+    selectedDice=[];
+    document.getElementById("result").innerHTML="";
+    renderTray();
 }
 
-renderTray();
+function clearHistory(){
+    document.getElementById("history").innerHTML="";
+}
+
+/* ===== RESULTS ===== */
+
+function updateResults(){
+
+    const modifier =
+        parseInt(document.getElementById("modifier").value)||0;
+
+    let total = modifier;
+
+    let lines = [];
+
+    selectedDice.forEach(d=>{
+        if(d.lastRoll!==null){
+            total+=d.lastRoll;
+            lines.push(`d${d.sides}: ${d.lastRoll}`);
+        }
+    });
+
+    document.getElementById("result").innerHTML=`
+        <div class="total">${total}</div>
+        <div class="breakdown">${lines.join("<br>")}</div>
+    `;
+}
+
+/* ===== HISTORY ===== */
+
+function addHistory(type,text){
+
+    const el = document.createElement("div");
+
+    el.className = `history-item ${type}`;
+    el.innerHTML = text;
+
+    document.getElementById("history").prepend(el);
+}
+
+function buildFullRollHistory(){
+
+    const modifier =
+        parseInt(document.getElementById("modifier").value) || 0;
+
+    let total = modifier;
+
+    let lines = [];
+
+    selectedDice.forEach(die => {
+
+        const value = die.lastRoll;
+
+        if(value !== null){
+            total += value;
+            lines.push(`d${die.sides}: ${value}`);
+        }
+    });
+
+    return `
+        Dice: ${lines.join(", ")}<br>
+        Modifier: ${modifier >= 0 ? "+" : ""}${modifier}<br>
+        <strong>Total: ${total}</strong>
+    `;
+}
 
 </script>
 
